@@ -11,7 +11,7 @@ package main
 
 type GAInitializer interface {
 	// Initializes popsize length []GAGenome from i
-	Init(i GAGenome, popsize int) ([]GAGenome);
+	InitPop(i GAGenome, popsize int) ([]GAGenome);
 	// String name of initializers
 	String() string;
 }
@@ -19,10 +19,10 @@ type GAInitializer interface {
 type GAShuffleInitializer struct{
 }
 
-func (i *GAShuffleInitializer) Init(first GAGenome, popsize int) (pop []GAGenome){
+func (i *GAShuffleInitializer) InitPop(first GAGenome, popsize int) (pop []GAGenome){
 	pop = make([]GAGenome, popsize);
 	for x := 0; x < popsize; x ++ {
-		pop[x] = first;
+		pop[x] = first.Copy();
 		pop[x].Shuffle();
 	}
 	return pop;

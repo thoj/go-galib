@@ -34,3 +34,14 @@ func NewGA(i GAInitializer, s GASelector, m GAMutator, b GABreeder) *GA {
 func (ga *GA) String() string {
 	return fmt.Sprintf("Initializer = %s, Selector = %s, Mutator = %s Breeder = %s", ga.initializer, ga.selector, ga.mutator, ga.breeder);
 }
+
+func (ga *GA) Init(popsize int, i GAGenome) {
+	ga.pop = ga.initializer.InitPop(i, popsize);
+}
+
+func (ga *GA) PrintPop() {
+	fmt.Printf("Current Population:\n");
+	for i := 0; i < len(ga.pop); i++ {
+		fmt.Printf("%2d: %s\n", i, ga.pop[i]);
+	}
+}

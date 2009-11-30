@@ -10,6 +10,7 @@ package main
 
 import (
 	"rand";
+	"fmt";
 )
 
 type GAGenome interface {
@@ -17,14 +18,16 @@ type GAGenome interface {
 	Shuffle();
 	//Copy a genome;
 	Copy() GAGenome;
+
+	String() string;
 }
 
 //Ordered list genome for problems where the order of Genes matter
 type GAOrderedIntGenome struct {
-	gene []int;
+	gene	[]int;
 }
 
-func NewGAOrderedIntGenome(i []int) *GAOrderedIntGenome {
+func NewOrderedIntGenome(i []int) *GAOrderedIntGenome {
 	g := new(GAOrderedIntGenome);
 	g.gene = i;
 	return g;
@@ -38,8 +41,13 @@ func (g *GAOrderedIntGenome) Shuffle() {
 	}
 }
 
-func (g *GAOrderedIntGenome) Copy() *GAOrderedIntGenome {
+func (g *GAOrderedIntGenome) Copy() GAGenome {
 	n := new(GAOrderedIntGenome);
-        n.gene = g.gene;
+	n.gene = make([]int, len(g.gene));
+	for i, c := range g.gene {
+		n.gene[i] = c; 
+	}
 	return n;
 }
+
+func (g *GAOrderedIntGenome) String() string	{ return fmt.Sprintf("%v", g.gene) }
