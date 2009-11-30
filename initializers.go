@@ -10,8 +10,24 @@ go-galib initializers
 package main
 
 type GAInitializer interface {
-	// Initializes popsize length []GAGenome
-	Init(popsize int) ([]GAGenome);
+	// Initializes popsize length []GAGenome from i
+	Init(i GAGenome, popsize int) ([]GAGenome);
 	// String name of initializers
 	String() string;
+}
+
+type GAShuffleInitializer struct{
+}
+
+func (i *GAShuffleInitializer) Init(first GAGenome, popsize int) (pop []GAGenome){
+	pop = make([]GAGenome, popsize);
+	for x := 0; x < popsize; x ++ {
+		pop[x] = first;
+		pop[x].Shuffle();
+	}
+	return pop;
+}
+
+func (i *GAShuffleInitializer) String() string {
+	return "ShuffleInitializer";
 }
