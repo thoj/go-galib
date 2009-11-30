@@ -11,7 +11,23 @@ package main
 
 type GABreeder interface {
 	// Breeds two parent GAGenomes and returns two children
-	Breed(a, b GAGenome) (GAGenome, GAGenome);
+	Breed(a, b GAGenome) (ca, cb GAGenome);
 	// String name of breeder
 	String() string;
 }
+
+type GARandomBreeder struct {
+}
+
+func (breeder *GARandomBreeder) Breed(a, b GAGenome) (ca, cb GAGenome) {
+	ca = a.Copy();
+	ca.Shuffle();
+	cb = a.Copy();
+	cb.Shuffle();
+	return;
+}
+
+func (b *GARandomBreeder) String() string {
+	return "GARandomBreeder";
+}
+
