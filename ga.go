@@ -39,9 +39,17 @@ func (ga *GA) Init(popsize int, i GAGenome) {
 	ga.pop = ga.initializer.InitPop(i, popsize);
 }
 
+func (ga *GA) Optimize(gen int) {
+	for i := 0; i < gen; i++ {
+		// Select genomes for breeding
+		ga.selector.SelectOne(ga.pop);
+		ga.selector.SelectOne(ga.pop);
+	}
+}
+
 func (ga *GA) PrintPop() {
 	fmt.Printf("Current Population:\n");
 	for i := 0; i < len(ga.pop); i++ {
-		fmt.Printf("%2d: %s\n", i, ga.pop[i]);
+		fmt.Printf("%2d: %s Score = %d\n", i, ga.pop[i], ga.pop[i].Score());
 	}
 }
