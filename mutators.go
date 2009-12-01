@@ -8,9 +8,11 @@ go-galib mutators
 
 package main
 
+import "rand"
+
 type GAMutator interface {
 	// Runs mutate operation on a GAGenome
-	Mutate(a *GAGenome) *GAGenome;
+	Mutate(a GAGenome) GAGenome;
 	// String name of mutator
 	String() string;
 }
@@ -20,8 +22,15 @@ type GAMutator interface {
 type GASwitchMutator struct {
 }
 
-func (m GASwitchMutator) Mutate(a *GAGenome) *GAGenome {
-	return new(GAGenome);
+func (m GASwitchMutator) Mutate(a GAGenome) GAGenome {
+	n := a.Copy();
+	p1 := rand.Intn(a.Len());
+	p2 := rand.Intn(a.Len());
+	if p1 > p2 {
+		p1, p2 = p2, p1;
+	}
+	n.Switch(p1, p2);
+	return n;
 }
 func (m GASwitchMutator) String() string {
 	return "GASwitchMutator";

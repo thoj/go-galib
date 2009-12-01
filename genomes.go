@@ -11,6 +11,7 @@ package main
 import (
 	"rand";
 	"fmt";
+	"container/vector";
 )
 
 type GAGenome interface {
@@ -22,8 +23,10 @@ type GAGenome interface {
 	Score() int;
 	//Reset cached score
 	Reset();
-
+	//Crossover for this genome
 	Crossover(bi GAGenome, p1, p2 int) (ca GAGenome, cb GAGenome);
+	//Switch for the genome
+	Switch(x, y int);
 
 	String() string;
 	Len() int;
@@ -69,7 +72,7 @@ func NewOrderedIntGenome(i []int, sfunc func(ga GAOrderedIntGenome) int) *GAOrde
 //Helper for Partially mapped crossover
 func (a GAOrderedIntGenome) pmxmap(v, p1, p2 int) (int, bool) {
 	for i, c := range a.gene {
-		if c == v && (i < p1 || i > p2) {
+		if c == v && ( i < p1 || i > p2) { 
 			return i, true
 		}
 	}
@@ -81,18 +84,51 @@ func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGeno
 	ca := a.Copy().(*GAOrderedIntGenome);
 	b := bi.(*GAOrderedIntGenome);
 	cb := b.Copy().(*GAOrderedIntGenome);
-	p2++;
-	copy(ca.gene[p1:p2], b.gene[p1:p2]);
-	copy(cb.gene[p1:p2], a.gene[p1:p2]);
+	copy(ca.gene[p1:p2+1], b.gene[p1:p2+1]);
+	copy(cb.gene[p1:p2+1], a.gene[p1:p2+1]);
 	//Proto child needs fixing
-	fmt.Printf("P1:%s\nP2:%s %d - %d\n", a, b, p1, p2);
-	for i := p1; i < p2; i++ {
-		ma, _ := ca.pmxmap(ca.gene[i], p1, p2);
-		mb, _ := cb.pmxmap(cb.gene[i], p1, p2);
-		ca.gene[ma], cb.gene[mb] = cb.gene[mb], ca.gene[ma];
+	amap := new(vector.IntVector);
+	bmap := new(vector.IntVector);
+	for i := p1; i <= p2; i++ {
+		ma, found := ca.pmxmap(ca.gene[i], p1, p2);
+		if found {
+			amap.Push(ma);
+			if bmap.Len() > 0 {
+				i1 := amap.Pop();
+				i2 := bmap.Pop();
+				ca.gene[i1], cb.gene[i2] = cb.gene[i2], ca.gene[i1];
+			}
+		}
+		mb, found := cb.pmxmap(cb.gene[i], p1, p2);
+		if found {
+			bmap.Push(mb);
+			if amap.Len() > 0 {
+				i1 := amap.Pop();
+				i2 := bmap.Pop();
+				ca.gene[i1], cb.gene[i2] = cb.gene[i2], ca.gene[i1];
+			}
+		}
 	}
-	fmt.Printf("C1:%s\nC2:%s\n", ca, cb);
 	return ca, cb;
+}
+/*
+func (g GAOrderedIntGenome) Valid() bool {
+	t := g.Copy().(*GAOrderedIntGenome);
+	sort.SortInts(t.gene);
+	last := -9;
+	for _, c := range t.gene {
+		if last > -1 && c == last {
+			fmt.Printf("%d - %d", c, last);
+			return false;
+		}
+		last = c;
+	}
+	return true;
+}
+*/
+
+func (g GAOrderedIntGenome) Switch(x, y int) {
+	g.gene[x], g.gene[y] = g.gene[y], g.gene[x];
 }
 
 func (g GAOrderedIntGenome) Shuffle() {
