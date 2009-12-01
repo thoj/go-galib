@@ -38,6 +38,23 @@ func (g GAGenomes) Swap(i, j int) {
 	g[i], g[j] = g[j], g[i];
 }
 
+func AppendGenomes(slice, data GAGenomes) GAGenomes {
+	l := len(slice);
+	if l + len(data) > cap(slice) {
+		newSlice := make(GAGenomes, (l+len(data))*2);
+		for i, c := range slice {
+			newSlice[i] = c
+		}
+		slice = newSlice;
+	}
+	slice = slice[0:l+len(data)];
+	for i, c := range data {
+		slice[l+i] = c
+	}
+	return slice;
+}
+
+
 //Ordered list genome for problems where the order of Genes matter
 type GAOrderedIntGenome struct {
 	gene	[]int;

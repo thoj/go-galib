@@ -13,7 +13,6 @@ import (
 	"math";
 	"rand";
 	"sort";
-	"fmt";
 )
 
 type GASelector interface {
@@ -39,14 +38,14 @@ func (s *GATournamentSelector) SelectOne(pop GAGenomes) GAGenome {
 	}
 	g := make(GAGenomes, s.Contestants);
 	l := len(pop);
-	fmt.Printf("Length = %d, Contestants = %d\n", l, len(g));
+	//fmt.Printf("Length = %d, Contestants = %d\n", l, len(g));
 	for i := 0; i < s.Contestants; i++ {
 		g[i] = pop[rand.Intn(l)];
 	}
 	sort.Sort(g);
-	fmt.Printf("%+v\n", g);
+	//fmt.Printf("%+v\n", g);
 	r := rand.Float64();
-	for i := 0; i-1 < s.Contestants; i++ {
+	for i := 0; i < s.Contestants - 1; i++ {
 		if s.PElite * math.Pow((float64(1) - s.PElite), float64(i+1)) < r {
 			return g[i];
 		}

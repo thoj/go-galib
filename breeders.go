@@ -22,7 +22,7 @@ type GARandomBreeder struct {
 func (breeder *GARandomBreeder) Breed(a, b GAGenome) (ca, cb GAGenome) {
 	ca = a.Copy();
 	ca.Shuffle();
-	cb = a.Copy();
+	cb = b.Copy();
 	cb.Shuffle();
 	return;
 }

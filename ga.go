@@ -11,10 +11,11 @@ package main
 
 import (
 	"fmt";
+	"sort";
 )
 
 type GA struct {
-	pop []GAGenome;
+	pop GAGenomes;
 	
 	initializer GAInitializer;
 	selector GASelector;
@@ -41,9 +42,23 @@ func (ga *GA) Init(popsize int, i GAGenome) {
 
 func (ga *GA) Optimize(gen int) {
 	for i := 0; i < gen; i++ {
-		// Select genomes for breeding
-		ga.selector.SelectOne(ga.pop);
-		ga.selector.SelectOne(ga.pop);
+		//Breed two inviduals selected with selector.
+		children := make(GAGenomes, 2);
+		children[0], children[1] = ga.breeder.Breed(ga.selector.SelectOne(ga.pop), ga.selector.SelectOne(ga.pop));
+		ga.pop = AppendGenomes(ga.pop, children);
+	}
+}
+func (ga *GA) PrintTop(n int) {
+	fmt.Printf("Top %d Induviduals\n", n);
+	sort.Sort(ga.pop);
+	if len(ga.pop) < n {
+	for i := 0; i < len(ga.pop); i++ {
+		fmt.Printf("%2d: %s Score = %d\n", i, ga.pop[i], ga.pop[i].Score());
+	}
+		return;
+ 	}
+	for i := 0; i < n; i++ {
+		fmt.Printf("%2d: %s Score = %d\n", i, ga.pop[i], ga.pop[i].Score());
 	}
 }
 
