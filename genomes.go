@@ -14,7 +14,7 @@ import (
 )
 
 type GAGenome interface {
-	//Shuffle genomes araound
+	//Shuffle genens
 	Shuffle();
 	//Copy a genome;
 	Copy() GAGenome;
@@ -23,31 +23,28 @@ type GAGenome interface {
 	//Reset cached score
 	Reset();
 
+	Crossover(bi GAGenome, p1, p2 int) (ca GAGenome, cb GAGenome);
+
 	String() string;
+	Len() int;
 }
 
-type GAGenomes []GAGenome;
+type GAGenomes []GAGenome
 
-func (g GAGenomes) Len() int {
-	return len(g);
-}
-func (g GAGenomes) Less(i, j int) bool {
-	return g[i].Score() < g[j].Score();
-}
-func (g GAGenomes) Swap(i, j int) {
-	g[i], g[j] = g[j], g[i];
-}
+func (g GAGenomes) Len() int		{ return len(g) }
+func (g GAGenomes) Less(i, j int) bool	{ return g[i].Score() < g[j].Score() }
+func (g GAGenomes) Swap(i, j int)	{ g[i], g[j] = g[j], g[i] }
 
 func AppendGenomes(slice, data GAGenomes) GAGenomes {
 	l := len(slice);
-	if l + len(data) > cap(slice) {
+	if l+len(data) > cap(slice) {
 		newSlice := make(GAGenomes, (l+len(data))*2);
 		for i, c := range slice {
 			newSlice[i] = c
 		}
 		slice = newSlice;
 	}
-	slice = slice[0:l+len(data)];
+	slice = slice[0 : l+len(data)];
 	for i, c := range data {
 		slice[l+i] = c
 	}
@@ -57,20 +54,49 @@ func AppendGenomes(slice, data GAGenomes) GAGenomes {
 
 //Ordered list genome for problems where the order of Genes matter
 type GAOrderedIntGenome struct {
-	gene	[]int;
-	score	int;
-	hasscore bool;
-	sfunc	func(ga *GAOrderedIntGenome) int;
+	gene		[]int;
+	score		int;
+	hasscore	bool;
+	sfunc		func(ga GAOrderedIntGenome) int;
 }
 
-func NewOrderedIntGenome(i []int, sfunc func(ga *GAOrderedIntGenome) int) *GAOrderedIntGenome {
+func NewOrderedIntGenome(i []int, sfunc func(ga GAOrderedIntGenome) int) *GAOrderedIntGenome {
 	g := new(GAOrderedIntGenome);
 	g.gene = i;
 	g.sfunc = sfunc;
 	return g;
 }
-func (g *GAOrderedIntGenome) Shuffle() {
-	l := len(g.gene)-1;
+//Helper for Partially mapped crossover
+func (a GAOrderedIntGenome) pmxmap(v, p1, p2 int) (int, bool) {
+	for i, c := range a.gene {
+		if c == v && (i < p1 || i > p2) {
+			return i, true
+		}
+	}
+	return 0, false;
+}
+
+// Partially mapped crossover.
+func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGenome) {
+	ca := a.Copy().(*GAOrderedIntGenome);
+	b := bi.(*GAOrderedIntGenome);
+	cb := b.Copy().(*GAOrderedIntGenome);
+	p2++;
+	copy(ca.gene[p1:p2], b.gene[p1:p2]);
+	copy(cb.gene[p1:p2], a.gene[p1:p2]);
+	//Proto child needs fixing
+	fmt.Printf("P1:%s\nP2:%s %d - %d\n", a, b, p1, p2);
+	for i := p1; i < p2; i++ {
+		ma, _ := ca.pmxmap(ca.gene[i], p1, p2);
+		mb, _ := cb.pmxmap(cb.gene[i], p1, p2);
+		ca.gene[ma], cb.gene[mb] = cb.gene[mb], ca.gene[ma];
+	}
+	fmt.Printf("C1:%s\nC2:%s\n", ca, cb);
+	return ca, cb;
+}
+
+func (g GAOrderedIntGenome) Shuffle() {
+	l := len(g.gene);
 	for i := 0; i < l; i++ {
 		x := rand.Intn(l);
 		y := rand.Intn(l);
@@ -78,7 +104,7 @@ func (g *GAOrderedIntGenome) Shuffle() {
 	}
 }
 
-func (g *GAOrderedIntGenome) Copy() GAGenome {
+func (g GAOrderedIntGenome) Copy() GAGenome {
 	n := new(GAOrderedIntGenome);
 	n.gene = make([]int, len(g.gene));
 	for i, c := range g.gene {
@@ -88,21 +114,17 @@ func (g *GAOrderedIntGenome) Copy() GAGenome {
 	return n;
 }
 
-func (g *GAOrderedIntGenome) Len() int {
-	return len(g.gene);
-}
+func (g GAOrderedIntGenome) Len() int	{ return len(g.gene) }
 
-func (g *GAOrderedIntGenome) Score() int {
-	if ! g.hasscore {
+func (g GAOrderedIntGenome) Score() int {
+	if !g.hasscore {
 		g.score = g.sfunc(g);
 		g.hasscore = true;
 	}
 	return int(g.score);
 }
 
-func (g *GAOrderedIntGenome) Reset()  {
-	g.hasscore = false;
-}
+func (g GAOrderedIntGenome) Reset()	{ g.hasscore = false }
 
 
-func (g *GAOrderedIntGenome) String() string	{ return fmt.Sprintf("%v", g.gene) }
+func (g GAOrderedIntGenome) String() string	{ return fmt.Sprintf("%v", g.gene) }

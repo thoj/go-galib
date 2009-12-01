@@ -6,7 +6,7 @@ import (
 	"time";
 )
 
-func score (g *GAOrderedIntGenome) int {
+func score (g GAOrderedIntGenome) int {
 	var total int;
 	for i, c := range g.gene {
 		total += c ^ i;
@@ -17,7 +17,8 @@ func score (g *GAOrderedIntGenome) int {
 func main() {
 	rand.Seed(time.Nanoseconds());
 	m := new(GASwitchMutator);
-	b := new(GARandomBreeder);
+//	b := new(GARandomBreeder);
+	b := new(GA2PointBreeder);
 	s := new(GATournamentSelector);
 	s.Contestants = 5;
 	s.PElite = 0.5;
@@ -28,6 +29,6 @@ func main() {
 	ga.Init(60, genome);
 	ga.PrintPop();
 	//Ten generations
-	ga.Optimize(1000);
+	ga.Optimize(1);
 	ga.PrintTop(10);
 }
