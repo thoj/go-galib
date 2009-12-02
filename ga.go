@@ -6,8 +6,7 @@ license that can be found in the LICENSE file.
 go-galib gene
 */
 
-
-package main
+package ga
 
 import (
 	"fmt";
@@ -26,7 +25,7 @@ type GA struct {
 	PMutate	float64;
 	PBreed	float64;
 
-	popsize int;
+	popsize	int;
 }
 
 func NewGA(i GAInitializer, s GASelector, m GAMutator, b GABreeder) *GA {
@@ -44,7 +43,10 @@ func (ga *GA) String() string {
 	return fmt.Sprintf("Initializer = %s, Selector = %s, Mutator = %s Breeder = %s", ga.initializer, ga.selector, ga.mutator, ga.breeder)
 }
 
-func (ga *GA) Init(popsize int, i GAGenome)	{ ga.pop = ga.initializer.InitPop(i, popsize); ga.popsize = popsize }
+func (ga *GA) Init(popsize int, i GAGenome) {
+	ga.pop = ga.initializer.InitPop(i, popsize);
+	ga.popsize = popsize;
+}
 
 func (ga *GA) Optimize(gen int) {
 	for i := 0; i < gen; i++ {

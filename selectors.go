@@ -7,7 +7,7 @@ go-galib selectors
 */
 
 
-package main
+package ga
 
 import (
 	"math";
@@ -16,42 +16,45 @@ import (
 )
 
 type GASelector interface {
-	// Select n from pop
+	// Select one from pop
 	SelectOne(pop GAGenomes) GAGenome;
-	
+
 	// String name of selector
 	String() string;
 }
 
-
+//This selector first selects selector.Contestants random GAGenomes 
+//from the population then selects one based on PElite chance.
+//The best contestant has PElite chance of getting selected. 
+//The next best contestant has PElite^2 chance of getting selected and so on
 type GATournamentSelector struct {
-	PElite float64;
-	Contestants int;
+	PElite		float64;
+	Contestants	int;
 }
 
 func (s *GATournamentSelector) SelectOne(pop GAGenomes) GAGenome {
 	if s.Contestants < 2 {
-		panic("Set selector.Contestants > 1");
+		panic("Set selector.Contestants > 1")
 	}
-	if s.PElite == 0{
-		panic("Set selector.PElite to float64 (0.5 is a good choice for most problems)");
+	if s.PElite == 0 {
+		panic("Set selector.PElite to float64 (0.5 is a good choice for most problems)")
 	}
 	g := make(GAGenomes, s.Contestants);
 	l := len(pop);
 	//fmt.Printf("Length = %d, Contestants = %d\n", l, len(g));
 	for i := 0; i < s.Contestants; i++ {
-		g[i] = pop[rand.Intn(l)];
+		g[i] = pop[rand.Intn(l)]
 	}
 	sort.Sort(g);
 	//fmt.Printf("%+v\n", g);
 	r := rand.Float64();
-	for i := 0; i < s.Contestants - 1; i++ {
-		if s.PElite * math.Pow((float64(1) - s.PElite), float64(i+1)) < r {
-			return g[i];
+	for i := 0; i < s.Contestants-1; i++ {
+		if s.PElite*math.Pow((float64(1)-s.PElite), float64(i+1)) < r {
+			return g[i]
 		}
 	}
-	return g[s.Contestants - 1];
+	return g[s.Contestants-1];
 }
 func (s *GATournamentSelector) String() string {
-	return "GARoulettSelector";
+	return "GATournamentSelector"
 }
