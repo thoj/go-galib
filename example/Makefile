@@ -1,6 +1,7 @@
-include $(GOROOT)/src/Make.$(GOARCH)
- 
-TARG=ordered_int
-GOFILES=ordered_int.go
- 
-include $(GOROOT)/src/Make.cmd
+all:
+	$(MAKE) -C ordered_int/
+	cp ordered_int/ordered_int ordered_int.bin
+
+clean:
+	$(MAKE) -C ordered_int/ clean
+	rm *.bin
