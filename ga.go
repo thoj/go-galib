@@ -71,7 +71,6 @@ func (ga *GA) Optimize(gen int) {
 	}
 }
 func (ga *GA) PrintTop(n int) {
-	fmt.Printf("Top %d Induviduals\n", n);
 	sort.Sort(ga.pop);
 	if len(ga.pop) < n {
 		for i := 0; i < len(ga.pop); i++ {
