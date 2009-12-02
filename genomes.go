@@ -27,6 +27,8 @@ type GAGenome interface {
 	Crossover(bi GAGenome, p1, p2 int) (ca GAGenome, cb GAGenome);
 	//Switch for the genome
 	Switch(x, y int);
+	//Splice two genomes;
+	Splice(bi GAGenome, from, to, length int);
 
 	String() string;
 	Len() int;
@@ -111,9 +113,15 @@ func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGeno
 			}
 		}
 	}
-	ca.hasscore = false;
-	cb.hasscore = false;
+	ca.Reset();
+	cb.Reset();
 	return ca, cb;
+}
+
+func (a GAOrderedIntGenome) Splice(bi GAGenome, from, to, length int ) {
+	b := bi.(*GAOrderedIntGenome);
+	//fmt.Printf("Splice: copy(a.Gene[%d:%d], b.Gene[%d:%d])\n", to, length, from, length);
+	copy(a.Gene[to:length+to], b.Gene[from:length+from]);
 }
 /*
 func (g GAOrderedIntGenome) Valid() bool {
@@ -140,7 +148,7 @@ func (g GAOrderedIntGenome) Randomize() {
 		y := rand.Intn(l);
 		g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x];
 	}
-	g.hasscore = false;
+	g.Reset();
 }
 
 func (g GAOrderedIntGenome) Copy() GAGenome {
@@ -150,6 +158,7 @@ func (g GAOrderedIntGenome) Copy() GAGenome {
 		n.Gene[i] = c
 	}
 	n.sfunc = g.sfunc;
+	n.score = g.score;
 	g.hasscore = true;
 	return n;
 }

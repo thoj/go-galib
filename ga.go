@@ -50,7 +50,8 @@ func (ga *GA) Init(popsize int, i GAGenome) {
 
 func (ga *GA) Optimize(gen int) {
 	for i := 0; i < gen; i++ {
-		for p := 0; p < len(ga.pop); p++ {
+		l := len(ga.pop); // Do not try to breed/mutate new in this gen
+		for p := 0; p < l; p++ {
 			//Breed two inviduals selected with selector.
 			if ga.PBreed > rand.Float64() {
 				children := make(GAGenomes, 2);
