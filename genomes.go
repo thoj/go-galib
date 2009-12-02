@@ -111,6 +111,8 @@ func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGeno
 			}
 		}
 	}
+	ca.hasscore = false;
+	cb.hasscore = false;
 	return ca, cb;
 }
 /*
@@ -129,7 +131,7 @@ func (g GAOrderedIntGenome) Valid() bool {
 }
 */
 
-func (g GAOrderedIntGenome) Switch(x, y int)	{ g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x] }
+func (g GAOrderedIntGenome) Switch(x, y int)	{ g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x]; g.hasscore = false; }
 
 func (g GAOrderedIntGenome) Randomize() {
 	l := len(g.Gene);
@@ -138,6 +140,7 @@ func (g GAOrderedIntGenome) Randomize() {
 		y := rand.Intn(l);
 		g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x];
 	}
+	g.hasscore = false;
 }
 
 func (g GAOrderedIntGenome) Copy() GAGenome {
@@ -147,6 +150,7 @@ func (g GAOrderedIntGenome) Copy() GAGenome {
 		n.Gene[i] = c
 	}
 	n.sfunc = g.sfunc;
+	g.hasscore = true;
 	return n;
 }
 
