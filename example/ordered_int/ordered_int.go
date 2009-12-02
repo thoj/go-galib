@@ -23,7 +23,7 @@ func main() {
 
 	s := new(ga.GATournamentSelector);
 	s.Contestants = 4;	//Contestants in Tournament
-	s.PElite = 0.3;		//Chance of best contestant winning, chance of next is PElite^2 and so on.
+	s.PElite = 0.7;		//Chance of best contestant winning, chance of next is PElite^2 and so on.
 
 	i := new(ga.GARandomInitializer);
 	gao := ga.NewGA(i, s, m, b);
