@@ -14,6 +14,7 @@ import (
 	"container/vector";
 )
 
+// Genome interface, Not final.
 type GAGenome interface {
 	//Randomize.Genens
 	Randomize();
@@ -29,6 +30,8 @@ type GAGenome interface {
 	Switch(x, y int);
 	//Splice two genomes;
 	Splice(bi GAGenome, from, to, length int);
+	//Check if genome is valid
+	Valid() bool;
 
 	String() string;
 	Len() int;
@@ -41,7 +44,6 @@ func (g GAGenomes) Less(i, j int) bool	{ return g[i].Score() < g[j].Score() }
 func (g GAGenomes) Swap(i, j int)	{ g[i], g[j] = g[j], g[i] }
 
 
-//Helper
 func AppendGenomes(slice, data GAGenomes) GAGenomes {
 	l := len(slice);
 	if l+len(data) > cap(slice) {
@@ -59,7 +61,7 @@ func AppendGenomes(slice, data GAGenomes) GAGenomes {
 }
 
 
-//Ordered list genome for problems where the order of Genes matter
+//Ordered list genome for problems where the order of Genes matter, tSP for example.
 type GAOrderedIntGenome struct {
 	Gene		[]int;
 	score		int;
@@ -73,6 +75,7 @@ func NewOrderedIntGenome(i []int, sfunc func(ga GAOrderedIntGenome) int) *GAOrde
 	g.sfunc = sfunc;
 	return g;
 }
+
 //Helper for Partially mapped crossover
 func (a GAOrderedIntGenome) pmxmap(v, p1, p2 int) (int, bool) {
 	for i, c := range a.Gene {
@@ -118,12 +121,12 @@ func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGeno
 	return ca, cb;
 }
 
-func (a GAOrderedIntGenome) Splice(bi GAGenome, from, to, length int ) {
+func (a GAOrderedIntGenome) Splice(bi GAGenome, from, to, length int) {
 	b := bi.(*GAOrderedIntGenome);
-	//fmt.Printf("Splice: copy(a.Gene[%d:%d], b.Gene[%d:%d])\n", to, length, from, length);
 	copy(a.Gene[to:length+to], b.Gene[from:length+from]);
+	a.Reset();
 }
-/*
+
 func (g GAOrderedIntGenome) Valid() bool {
 	t := g.Copy().(*GAOrderedIntGenome);
 	sort.SortInts(t.Gene);
@@ -137,9 +140,11 @@ func (g GAOrderedIntGenome) Valid() bool {
 	}
 	return true;
 }
-*/
 
-func (g GAOrderedIntGenome) Switch(x, y int)	{ g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x]; g.hasscore = false; }
+func (g GAOrderedIntGenome) Switch(x, y int) {
+	g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x];
+	g.Reset();
+}
 
 func (g GAOrderedIntGenome) Randomize() {
 	l := len(g.Gene);
