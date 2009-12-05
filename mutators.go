@@ -50,7 +50,7 @@ func (m GAShiftMutator) Mutate(a GAGenome) GAGenome {
 }
 func (m GAShiftMutator) String() string	{ return "GAShiftMutator" }
 
-//Combines several mutators into one, each mutation has equal change of occuring.
+//Combines several mutators into one, each mutation has equal chance of occuring.
 type GAMultiMutator struct {
 	v	*vector.Vector;
 	stats	[]int;
