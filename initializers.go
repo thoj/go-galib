@@ -11,22 +11,20 @@ package ga
 
 type GAInitializer interface {
 	// Initializes popsize length []GAGenome from i
-	InitPop(i GAGenome, popsize int) []GAGenome;
+	InitPop(i GAGenome, popsize int) []GAGenome
 	// String name of initializers
-	String() string;
+	String() string
 }
 
 type GARandomInitializer struct{}
 
 func (i *GARandomInitializer) InitPop(first GAGenome, popsize int) (pop []GAGenome) {
-	pop = make([]GAGenome, popsize);
+	pop = make([]GAGenome, popsize)
 	for x := 0; x < popsize; x++ {
-		pop[x] = first.Copy();
-		pop[x].Randomize();
+		pop[x] = first.Copy()
+		pop[x].Randomize()
 	}
-	return pop;
+	return pop
 }
 
-func (i *GARandomInitializer) String() string {
-	return "RandomInitializer"
-}
+func (i *GARandomInitializer) String() string { return "RandomInitializer" }

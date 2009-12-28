@@ -9,14 +9,14 @@ go-galib beeders
 package ga
 
 import (
-	"rand";
+	"rand"
 )
 
 type GABreeder interface {
 	// Breeds two parent GAGenomes and returns two children
-	Breed(a, b GAGenome) (ca, cb GAGenome);
+	Breed(a, b GAGenome) (ca, cb GAGenome)
 	// String name of breeder
-	String() string;
+	String() string
 }
 
 //Combines genomes by selecting 2 points to exchange
@@ -27,26 +27,26 @@ func (breeder *GA2PointBreeder) Breed(a, b GAGenome) (ca, cb GAGenome) {
 	if a.Len() != b.Len() {
 		panic("Length mismatch in pmx")
 	}
-	p1 := rand.Intn(a.Len());
-	p2 := rand.Intn(b.Len());
+	p1 := rand.Intn(a.Len())
+	p2 := rand.Intn(b.Len())
 	if p1 > p2 {
 		p1, p2 = p2, p1
 	}
-	ca, cb = a.Crossover(b, p1, p2);
-	return;
+	ca, cb = a.Crossover(b, p1, p2)
+	return
 }
 
-func (b *GA2PointBreeder) String() string	{ return "GA2PointBreeder" }
+func (b *GA2PointBreeder) String() string { return "GA2PointBreeder" }
 
 //Totally useless breeader. Copies input and shuffles it.
 type GARandomBreeder struct{}
 
 func (breeder *GARandomBreeder) Breed(a, b GAGenome) (ca, cb GAGenome) {
-	ca = a.Copy();
-	ca.Randomize();
-	cb = b.Copy();
-	cb.Randomize();
-	return;
+	ca = a.Copy()
+	ca.Randomize()
+	cb = b.Copy()
+	cb.Randomize()
+	return
 }
 
-func (b *GARandomBreeder) String() string	{ return "GARandomBreeder" }
+func (b *GARandomBreeder) String() string { return "GARandomBreeder" }
