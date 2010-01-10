@@ -117,7 +117,7 @@ func (g GAOrderedIntGenome) Copy() GAGenome {
 	}
 	n.sfunc = g.sfunc
 	n.score = g.score
-	g.hasscore = true
+	n.hasscore = g.hasscore
 	return n
 }
 
