@@ -5,6 +5,12 @@ Install
 	$ make
 	$ make install
 
+Compiling examples:
+	$ cd examples
+	$ make
+
 Use
 --------
 See example/*
+
+	
