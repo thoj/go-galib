@@ -91,3 +91,12 @@ func (m *GAMultiMutator) Stats() string {
 	}
 	return o
 }
+
+//Do nothing mutator
+type GANoopMutator struct{}
+
+func (m GANoopMutator) Mutate(a GAGenome) GAGenome {
+	n := a.Copy()
+	return n
+}
+func (m GANoopMutator) String() string { return "GANoopMutator" }
