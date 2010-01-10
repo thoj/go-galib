@@ -19,8 +19,8 @@ var theset = [200]int{332, 401, -178, 60, -436, -135, -275, 192, -223, -150, -67
 var scores int
 // Fitness function for subset sum
 func score(g *ga.GAFixedBitstringGenome) int {
-	scores ++;
-	total := 0;
+	scores++
+	total := 0
 	for i, c := range g.Gene {
 		if c {
 			total += theset[i]
@@ -55,17 +55,17 @@ func main() {
 	gao.Init(50, genome) //Total population
 	for {
 		gao.Optimize(1) // Run genetic algorithm for 20 generations.
-		best := gao.Best().(*ga.GAFixedBitstringGenome);
+		best := gao.Best().(*ga.GAFixedBitstringGenome)
 		sum := 0
 		if best.Score() == 0 {
-		for n, value := range best.Gene {
-			if value {
-				fmt.Printf("%d,", theset[n]);
-				sum += theset[n];
+			for n, value := range best.Gene {
+				if value {
+					fmt.Printf("%d,", theset[n])
+					sum += theset[n]
+				}
 			}
-		}
-		fmt.Printf(" = %d / %d\n", sum, best.Score());
-			break;
+			fmt.Printf(" = %d / %d\n", sum, best.Score())
+			break
 		}
 	}
 	fmt.Printf("Calls to score = %d\n", scores)

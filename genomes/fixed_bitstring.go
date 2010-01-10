@@ -24,7 +24,7 @@ func NewFixedBitstringGenome(i []bool, sfunc func(ga *GAFixedBitstringGenome) in
 	g := new(GAFixedBitstringGenome)
 	g.Gene = i
 	g.sfunc = sfunc
-	g.Reset();
+	g.Reset()
 	return g
 }
 

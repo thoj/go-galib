@@ -53,4 +53,3 @@ func AppendGenomes(slice, data GAGenomes) GAGenomes {
 	}
 	return slice
 }
-

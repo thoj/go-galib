@@ -74,7 +74,7 @@ func (ga *GA) Optimize(gen int) {
 
 func (ga *GA) Best() GAGenome {
 	sort.Sort(ga.pop)
-	return ga.pop[0];
+	return ga.pop[0]
 }
 
 func (ga *GA) PrintTop(n int) {
