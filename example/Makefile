@@ -1,11 +1,12 @@
 all:
-	$(MAKE) -C ordered_int/
-	mv ordered_int/ordered_int ordered_int.bin
-	
-	$(MAKE) -C subset_sum/
-	mv subset_sum/subset_sum subset_sum.bin
-
+	$(MAKE) -C src/ordered_int/
+	mv src/ordered_int/ordered_int ordered_int
+ 
+	$(MAKE) -C src/subset_sum/
+	mv src/subset_sum/subset_sum subset_sum
+ 
 clean:
-	$(MAKE) -C ordered_int/ clean
-	$(MAKE) -C subset_sum/ clean
-	rm *.bin
+	$(MAKE) -C src/ordered_int/ clean
+	$(MAKE) -C src/subset_sum/ clean
+	rm ordered_int subset_sum
+ 
