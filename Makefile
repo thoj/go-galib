@@ -3,7 +3,10 @@ include $(GOROOT)/src/Make.$(GOARCH)
 TARG=ga
 GOFILES=ga.go \
 	selectors.go \
-	mutators.go \
+	mutators/mutators.go \
+	mutators/shift.go \
+	mutators/switch.go \
+	mutators/multi.go \
 	initializers.go \
 	breeders.go \
 	genomes/genomes.go \
