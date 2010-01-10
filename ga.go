@@ -71,6 +71,12 @@ func (ga *GA) Optimize(gen int) {
 		ga.pop = ga.pop[0:ga.popsize]
 	}
 }
+
+func (ga *GA) Best() GAGenome {
+	sort.Sort(ga.pop)
+	return ga.pop[0];
+}
+
 func (ga *GA) PrintTop(n int) {
 	sort.Sort(ga.pop)
 	if len(ga.pop) < n {
