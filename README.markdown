@@ -1,3 +1,7 @@
+Description
+--------
+Genetic Algorithms for Go/Golang
+
 Install
 --------
 	$ git clone git@github.com:thoj/go-galib.git
@@ -11,6 +15,4 @@ Compiling examples:
 
 Use
 --------
-See example/*
-
-	
+See example/src/*
