@@ -1,7 +1,7 @@
 include $(GOROOT)/src/Make.$(GOARCH)
 
 OBJS := $(patsubst %.go,%.$O,$(wildcard *.go))
-OUT := $(patsubst %.8,%,$(OBJS))
+OUT := $(patsubst %.$O,%,$(OBJS))
 
 all: $(OBJS)
 
