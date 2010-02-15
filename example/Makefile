@@ -1,12 +1,13 @@
-all:
-	$(MAKE) -C src/ordered_int/
-	mv src/ordered_int/ordered_int ordered_int
- 
-	$(MAKE) -C src/subset_sum/
-	mv src/subset_sum/subset_sum subset_sum
- 
+include $(GOROOT)/src/Make.$(GOARCH)
+
+OBJS := $(patsubst %.go,%.$O,$(wildcard *.go))
+OUT := $(patsubst %.8,%,$(OBJS))
+
+all: $(OBJS)
+
+%.$O: %.go
+	$(GC) $<
+	$(LD) -o $(patsubst %.$O,%,$@) $@
+
 clean:
-	$(MAKE) -C src/ordered_int/ clean
-	$(MAKE) -C src/subset_sum/ clean
-	rm ordered_int subset_sum
- 
+	rm -f *.$O $(OBJS) $(OUT)
