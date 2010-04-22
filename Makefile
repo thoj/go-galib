@@ -1,16 +1,17 @@
 include $(GOROOT)/src/Make.$(GOARCH)
 
 TARG=ga
-GOFILES=ga.go \
-	selectors.go \
-	mutators/mutators.go \
-	mutators/shift.go \
-	mutators/switch.go \
-	mutators/multi.go \
-	initializers.go \
-	breeders.go \
-	genomes/genomes.go \
-	genomes/ordered_int.go \
-	genomes/fixed_bitstring.go \
 
-include $(GOROOT)/src/Make.pkg 
+GOFILES=src/ga.go \
+	src/selector.go \
+	src/mutator.go \
+	src/mutator_shift.go \
+	src/mutator_switch.go \
+	src/mutator_multi.go \
+	src/initializer.go \
+	src/breeder.go \
+	src/genome.go \
+	src/genome_ordered_int.go \
+	src/genome_fixed_bitstring.go \
+
+include $(GOROOT)/src/Make.pkg
