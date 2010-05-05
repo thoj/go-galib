@@ -16,7 +16,7 @@ import (
 
 var scores int
 // Boring fitness/score function.
-func score(g ga.GAOrderedIntGenome) int {
+func score(g *ga.GAOrderedIntGenome) int {
 	var total int
 	for i, c := range g.Gene {
 		total += c ^ i

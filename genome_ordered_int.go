@@ -19,10 +19,10 @@ type GAOrderedIntGenome struct {
 	Gene     []int
 	score    int
 	hasscore bool
-	sfunc    func(ga GAOrderedIntGenome) int
+	sfunc    func(ga *GAOrderedIntGenome) int
 }
 
-func NewOrderedIntGenome(i []int, sfunc func(ga GAOrderedIntGenome) int) *GAOrderedIntGenome {
+func NewOrderedIntGenome(i []int, sfunc func(ga *GAOrderedIntGenome) int) *GAOrderedIntGenome {
 	g := new(GAOrderedIntGenome)
 	g.Gene = i
 	g.sfunc = sfunc
@@ -125,7 +125,7 @@ func (g GAOrderedIntGenome) Len() int { return len(g.Gene) }
 
 func (g GAOrderedIntGenome) Score() int {
 	if !g.hasscore {
-		g.score = g.sfunc(g)
+		g.score = g.sfunc(&g)
 		g.hasscore = true
 	}
 	return int(g.score)
