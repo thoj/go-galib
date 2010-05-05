@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"rand"
 	"time"
-	"ga"
+	"../_obj/ga"
 )
 
 var scores int
