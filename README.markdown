@@ -9,10 +9,14 @@ Install
 	$ make
 	$ make install
 
+Goinstall:
+--------
+	$ goinstall github.com/thoj/go-galib
+
 Compiling examples:
 	$ cd examples
 	$ make
 
 Use
 --------
-See example/src/*
+See example/*
