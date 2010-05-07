@@ -30,7 +30,7 @@ func NewOrderedIntGenome(i []int, sfunc func(ga *GAOrderedIntGenome) int) *GAOrd
 }
 
 //Helper for Partially mapped crossover
-func (a GAOrderedIntGenome) pmxmap(v, p1, p2 int) (int, bool) {
+func (a *GAOrderedIntGenome) pmxmap(v, p1, p2 int) (int, bool) {
 	for i, c := range a.Gene {
 		if c == v && (i < p1 || i > p2) {
 			return i, true
@@ -40,7 +40,7 @@ func (a GAOrderedIntGenome) pmxmap(v, p1, p2 int) (int, bool) {
 }
 
 // Partially mapped crossover.
-func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGenome) {
+func (a *GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGenome) {
 	ca := a.Copy().(*GAOrderedIntGenome)
 	b := bi.(*GAOrderedIntGenome)
 	cb := b.Copy().(*GAOrderedIntGenome)
@@ -74,13 +74,13 @@ func (a GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGeno
 	return ca, cb
 }
 
-func (a GAOrderedIntGenome) Splice(bi GAGenome, from, to, length int) {
+func (a *GAOrderedIntGenome) Splice(bi GAGenome, from, to, length int) {
 	b := bi.(*GAOrderedIntGenome)
 	copy(a.Gene[to:length+to], b.Gene[from:length+from])
 	a.Reset()
 }
 
-func (g GAOrderedIntGenome) Valid() bool {
+func (g *GAOrderedIntGenome) Valid() bool {
 	t := g.Copy().(*GAOrderedIntGenome)
 	sort.SortInts(t.Gene)
 	last := -9
@@ -94,12 +94,12 @@ func (g GAOrderedIntGenome) Valid() bool {
 	return true
 }
 
-func (g GAOrderedIntGenome) Switch(x, y int) {
+func (g *GAOrderedIntGenome) Switch(x, y int) {
 	g.Gene[x], g.Gene[y] = g.Gene[y], g.Gene[x]
 	g.Reset()
 }
 
-func (g GAOrderedIntGenome) Randomize() {
+func (g *GAOrderedIntGenome) Randomize() {
 	l := len(g.Gene)
 	for i := 0; i < l; i++ {
 		x := rand.Intn(l)
@@ -109,7 +109,7 @@ func (g GAOrderedIntGenome) Randomize() {
 	g.Reset()
 }
 
-func (g GAOrderedIntGenome) Copy() GAGenome {
+func (g *GAOrderedIntGenome) Copy() GAGenome {
 	n := new(GAOrderedIntGenome)
 	n.Gene = make([]int, len(g.Gene))
 	copy(n.Gene, g.Gene)
@@ -119,17 +119,17 @@ func (g GAOrderedIntGenome) Copy() GAGenome {
 	return n
 }
 
-func (g GAOrderedIntGenome) Len() int { return len(g.Gene) }
+func (g *GAOrderedIntGenome) Len() int { return len(g.Gene) }
 
-func (g GAOrderedIntGenome) Score() int {
+func (g *GAOrderedIntGenome) Score() int {
 	if !g.hasscore {
-		g.score = g.sfunc(&g)
+		g.score = g.sfunc(g)
 		g.hasscore = true
 	}
 	return int(g.score)
 }
 
-func (g GAOrderedIntGenome) Reset() { g.hasscore = false }
+func (g *GAOrderedIntGenome) Reset() { g.hasscore = false }
 
 
-func (g GAOrderedIntGenome) String() string { return fmt.Sprintf("%v", g.Gene) }
+func (g *GAOrderedIntGenome) String() string { return fmt.Sprintf("%v", g.Gene) }

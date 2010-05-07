@@ -50,6 +50,8 @@ func main() {
 
 	gao.Optimize(20) // Run genetic algorithm for 20 generations.
 	gao.PrintTop(10)
-	fmt.Printf("Calls to score = %d\n", scores)
+	fmt.Printf("Calls to score = %d\n", func(g *ga.GAOrderedIntGenome) int {
+		return score(g)
+	})
 	fmt.Printf("%s\n", m.Stats())
 }
