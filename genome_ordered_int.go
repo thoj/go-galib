@@ -112,9 +112,7 @@ func (g GAOrderedIntGenome) Randomize() {
 func (g GAOrderedIntGenome) Copy() GAGenome {
 	n := new(GAOrderedIntGenome)
 	n.Gene = make([]int, len(g.Gene))
-	for i, c := range g.Gene {
-		n.Gene[i] = c
-	}
+	copy(n.Gene, g.Gene)
 	n.sfunc = g.sfunc
 	n.score = g.score
 	n.hasscore = g.hasscore

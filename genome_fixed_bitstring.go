@@ -69,9 +69,7 @@ func (g *GAFixedBitstringGenome) Randomize() {
 func (g *GAFixedBitstringGenome) Copy() GAGenome {
 	n := new(GAFixedBitstringGenome)
 	n.Gene = make([]bool, len(g.Gene))
-	for i, c := range g.Gene {
-		n.Gene[i] = c
-	}
+	copy(n.Gene, g.Gene)
 	n.sfunc = g.sfunc
 	n.score = g.score
 	n.hasscore = g.hasscore
