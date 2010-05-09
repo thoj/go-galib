@@ -18,7 +18,7 @@ var theset = [200]int{332, 401, -178, 60, -436, -135, -275, 192, -223, -150, -67
 
 var scores int
 // Fitness function for subset sum
-func score(g *ga.GAFixedBitstringGenome) int {
+func score(g *ga.GAFixedBitstringGenome) float64 {
 	scores++
 	total := 0
 	for i, c := range g.Gene {
@@ -27,9 +27,9 @@ func score(g *ga.GAFixedBitstringGenome) int {
 		}
 	}
 	if total < 0 {
-		return -total
+		return float64(-total)
 	}
-	return total
+	return float64(total)
 }
 
 func main() {
@@ -64,7 +64,7 @@ func main() {
 					sum += theset[n]
 				}
 			}
-			fmt.Printf(" = %d / %d\n", sum, best.Score())
+			fmt.Printf(" = %d / %f\n", sum, best.Score())
 			break
 		}
 	}

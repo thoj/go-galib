@@ -16,13 +16,13 @@ import (
 
 var scores int
 // Boring fitness/score function.
-func score(g *ga.GAOrderedIntGenome) int {
+func score(g *ga.GAOrderedIntGenome) float64 {
 	var total int
 	for i, c := range g.Gene {
 		total += c ^ i
 	}
 	scores++
-	return total
+	return float64(total)
 }
 
 func main() {
@@ -50,8 +50,6 @@ func main() {
 
 	gao.Optimize(20) // Run genetic algorithm for 20 generations.
 	gao.PrintTop(10)
-	fmt.Printf("Calls to score = %d\n", func(g *ga.GAOrderedIntGenome) int {
-		return score(g)
-	})
+	fmt.Printf("Calls to score = %d\n", scores);
 	fmt.Printf("%s\n", m.Stats())
 }

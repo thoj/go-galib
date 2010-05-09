@@ -15,12 +15,12 @@ import (
 
 type GAFixedBitstringGenome struct {
 	Gene     []bool
-	score    int
+	score    float64
 	hasscore bool
-	sfunc    func(ga *GAFixedBitstringGenome) int
+	sfunc    func(ga *GAFixedBitstringGenome) float64
 }
 
-func NewFixedBitstringGenome(i []bool, sfunc func(ga *GAFixedBitstringGenome) int) *GAFixedBitstringGenome {
+func NewFixedBitstringGenome(i []bool, sfunc func(ga *GAFixedBitstringGenome) float64) *GAFixedBitstringGenome {
 	g := new(GAFixedBitstringGenome)
 	g.Gene = i
 	g.sfunc = sfunc
@@ -78,7 +78,7 @@ func (g *GAFixedBitstringGenome) Copy() GAGenome {
 
 func (g *GAFixedBitstringGenome) Len() int { return len(g.Gene) }
 
-func (g *GAFixedBitstringGenome) Score() int {
+func (g *GAFixedBitstringGenome) Score() float64 {
 	if !g.hasscore {
 		g.score = g.sfunc(g)
 		g.hasscore = true

@@ -15,7 +15,7 @@ type GAGenome interface {
 	//Copy a genome;
 	Copy() GAGenome
 	//Calculate score
-	Score() int
+	Score() float64
 	//Reset cached score
 	Reset()
 	//Crossover for this genome

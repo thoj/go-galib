@@ -17,12 +17,12 @@ import (
 
 type GAOrderedIntGenome struct {
 	Gene     []int
-	score    int
+	score    float64
 	hasscore bool
-	sfunc    func(ga *GAOrderedIntGenome) int
+	sfunc    func(ga *GAOrderedIntGenome) float64
 }
 
-func NewOrderedIntGenome(i []int, sfunc func(ga *GAOrderedIntGenome) int) *GAOrderedIntGenome {
+func NewOrderedIntGenome(i []int, sfunc func(ga *GAOrderedIntGenome) float64) *GAOrderedIntGenome {
 	g := new(GAOrderedIntGenome)
 	g.Gene = i
 	g.sfunc = sfunc
@@ -121,12 +121,12 @@ func (g *GAOrderedIntGenome) Copy() GAGenome {
 
 func (g *GAOrderedIntGenome) Len() int { return len(g.Gene) }
 
-func (g *GAOrderedIntGenome) Score() int {
+func (g *GAOrderedIntGenome) Score() float64 {
 	if !g.hasscore {
 		g.score = g.sfunc(g)
 		g.hasscore = true
 	}
-	return int(g.score)
+	return g.score
 }
 
 func (g *GAOrderedIntGenome) Reset() { g.hasscore = false }

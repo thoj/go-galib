@@ -81,18 +81,18 @@ func (ga *GA) PrintTop(n int) {
 	sort.Sort(ga.pop)
 	if len(ga.pop) < n {
 		for i := 0; i < len(ga.pop); i++ {
-			fmt.Printf("%2d: %s Score = %d\n", i, ga.pop[i], ga.pop[i].Score())
+			fmt.Printf("%2d: %s Score = %f\n", i, ga.pop[i], ga.pop[i].Score())
 		}
 		return
 	}
 	for i := 0; i < n; i++ {
-		fmt.Printf("%2d: %s Score = %d\n", i, ga.pop[i], ga.pop[i].Score())
+		fmt.Printf("%2d: %s Score = %f\n", i, ga.pop[i], ga.pop[i].Score())
 	}
 }
 
 func (ga *GA) PrintPop() {
 	fmt.Printf("Current Population:\n")
 	for i := 0; i < len(ga.pop); i++ {
-		fmt.Printf("%2d: %s Score = %d\n", i, ga.pop[i], ga.pop[i].Score())
+		fmt.Printf("%2d: %s Score = %f\n", i, ga.pop[i], ga.pop[i].Score())
 	}
 }
