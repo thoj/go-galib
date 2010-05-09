@@ -32,12 +32,16 @@ type GATournamentSelector struct {
 	Contestants int
 }
 
-func (s *GATournamentSelector) SelectOne(pop GAGenomes) GAGenome {
-	if s.Contestants < 2 {
-		panic("Set selector.Contestants > 1")
+func NewGATournamentSelector(pelite float, contestants int) {
+	if pelite == 0 {
+		return nil
 	}
-	if s.PElite == 0 {
-		panic("Set selector.PElite to float64 (0.5 is a good choice for most problems)")
+	return &GATournamentSelector{pelite, contestants}
+}
+
+func (s *GATournamentSelector) SelectOne(pop GAGenomes) GAGenome {
+	if s.Contestants < 2 || s.PElite == 0 {
+		panic("Contestants and PElite are not set")
 	}
 	g := make(GAGenomes, s.Contestants)
 	l := len(pop)
