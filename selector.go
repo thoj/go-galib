@@ -32,7 +32,7 @@ type GATournamentSelector struct {
 	Contestants int
 }
 
-func NewGATournamentSelector(pelite float, contestants int) {
+func NewGATournamentSelector(pelite float64, contestants int) *GATournamentSelector {
 	if pelite == 0 {
 		return nil
 	}
