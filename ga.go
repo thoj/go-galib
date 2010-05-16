@@ -72,6 +72,12 @@ func (ga *GA) Optimize(gen int) {
 	}
 }
 
+func (ga *GA) OptimizeUntil(stop func(best GAGenome) bool) {
+	for !stop(ga.Best()) {
+		ga.Optimize(1)
+	}
+}
+
 func (ga *GA) Best() GAGenome {
 	sort.Sort(ga.pop)
 	return ga.pop[0]
