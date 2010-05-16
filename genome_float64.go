@@ -1,10 +1,10 @@
 /*
-Copyright 2009 Thomas Jager <mail@jager.no> All rights reserved.
+Copyright 2010 Thomas Jager <mail@jager.no> All rights reserved.
 
 Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file.
 
-Ordered list genome for problems where the order of Genes matter, tSP for example.
+Floating point genome. For solving functions for example.
 */
 
 package ga
