@@ -33,6 +33,7 @@ func ackley(g *ga.GAFloatGenome) float64 {
 }
 
 func rosenbrock(g *ga.GAFloatGenome) float64 {
+	scores++
 	var sum float64
 	for i := 1; i < len(g.Gene); i++ {
 		sum += 100.0*math.Pow(math.Pow(g.Gene[i]-g.Gene[i-1], 2), 2) + math.Pow(1-g.Gene[i-1], 2)
@@ -43,21 +44,25 @@ func rosenbrock(g *ga.GAFloatGenome) float64 {
 
 func main() {
 	rand.Seed(time.Nanoseconds())
-	m := ga.NewGAGaussianMutator(0.4, 0)
-	b := new(ga.GA2PointBreeder)
-	s := ga.NewGATournamentSelector(0.2, 5)
 
-	i := new(ga.GARandomInitializer)
-	gao := ga.NewGA(i, s, m, b)
-	gao.PMutate = 0.5 //Chance of mutation
-	gao.PBreed = 0.2  //Chance of breeding
+	param := ga.GAParameter{
+		Initializer: new(ga.GARandomInitializer),
+		Selector:    ga.NewGATournamentSelector(0.2, 5),
+		Breeder:     new(ga.GA2PointBreeder),
+		Mutator:     ga.NewGAGaussianMutator(0.4, 0),
+		PMutate:     0.5,
+		PBreed:      0.2}
 
-	fmt.Printf("%s\n", gao)
+	gao := ga.NewGA(param)
+
 	genome := ga.NewFloatGenome(make([]float64, 20), rosenbrock, 1, -1)
+
 	gao.Init(100, genome) //Total population
+
 	gao.OptimizeUntil(func(best ga.GAGenome) bool {
 		return best.Score() < 1e-3
 	})
+
 	best := gao.Best().(*ga.GAFloatGenome)
 	fmt.Printf("%s = %f\n", best, best.Score())
 	fmt.Printf("Calls to score = %d\n", scores)

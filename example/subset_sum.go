@@ -34,25 +34,27 @@ func score(g *ga.GAFixedBitstringGenome) float64 {
 
 func main() {
 	rand.Seed(time.Nanoseconds())
+
 	m := ga.NewMultiMutator()
 	msh := new(ga.GAShiftMutator)
 	msw := new(ga.GASwitchMutator)
 	m.Add(msh)
 	m.Add(msw)
-	b := new(ga.GA2PointBreeder)
-	s := new(ga.GATournamentSelector)
 
-	s.Contestants = 5 //Contestants in Tournament
-	s.PElite = 0.7    //Chance of best contestant winning, chance of next is PElite^2 and so on.
+	param := ga.GAParameter{
+		Initializer: new(ga.GARandomInitializer),
+		Selector:    ga.NewGATournamentSelector(0.7, 5),
+		Breeder:     new(ga.GA2PointBreeder),
+		Mutator:     m,
+		PMutate:     0.2,
+		PBreed:      0.2}
 
-	i := new(ga.GARandomInitializer)
-	gao := ga.NewGA(i, s, m, b)
-	gao.PMutate = 0.2 //Chance of mutation
-	gao.PBreed = 0.2  //Chance of breeding
+	gao := ga.NewGA(param)
 
-	fmt.Printf("%s\n", gao)
 	genome := ga.NewFixedBitstringGenome(make([]bool, len(theset)), score)
+
 	gao.Init(50, genome) //Total population
+
 	for {
 		gao.Optimize(1) // Run genetic algorithm for 20 generations.
 		best := gao.Best().(*ga.GAFixedBitstringGenome)

@@ -27,29 +27,29 @@ func score(g *ga.GAOrderedIntGenome) float64 {
 
 func main() {
 	rand.Seed(time.Nanoseconds())
-	//m := new(ga.GASwitchMutator);
+
 	m := ga.NewMultiMutator()
 	msh := new(ga.GAShiftMutator)
 	msw := new(ga.GASwitchMutator)
 	m.Add(msh)
 	m.Add(msw)
-	b := new(ga.GA2PointBreeder)
 
-	s := new(ga.GATournamentSelector)
-	s.Contestants = 5 //Contestants in Tournament
-	s.PElite = 0.7    //Chance of best contestant winning, chance of next is PElite^2 and so on.
+	param := ga.GAParameter{
+		Initializer: new(ga.GARandomInitializer),
+		Selector:    ga.NewGATournamentSelector(0.7, 5),
+		Breeder:     new(ga.GA2PointBreeder),
+		Mutator:     m,
+		PMutate:     0.2,
+		PBreed:      0.7}
 
-	i := new(ga.GARandomInitializer)
-	gao := ga.NewGA(i, s, m, b)
-	gao.PMutate = 0.2 //Chance of mutation
-	gao.PBreed = 0.2  //Chance of breeding
+	gao := ga.NewGA(param)
 
-	fmt.Printf("%s\n", gao)
 	genome := ga.NewOrderedIntGenome([]int{10, 11, 12, 13, 14, 15, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0}, score)
+
 	gao.Init(200, genome) //Total population
 
 	gao.Optimize(20) // Run genetic algorithm for 20 generations.
 	gao.PrintTop(10)
-	fmt.Printf("Calls to score = %d\n", scores);
+	fmt.Printf("Calls to score = %d\n", scores)
 	fmt.Printf("%s\n", m.Stats())
 }
