@@ -3,6 +3,7 @@ include $(GOROOT)/src/Make.$(GOARCH)
 TARG=ga
 
 GOFILES=ga.go \
+	ga_parallel.go \
 	selector.go \
 	mutator.go \
 	mutator_shift.go \
