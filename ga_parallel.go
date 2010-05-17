@@ -56,13 +56,26 @@ func (ga *GAParallel) Optimize(gen int) {
 	for i := 0; i < ga.numproc; i++ {
 		<-c
 	}
+	nselect := gen * 2
+	children := make([]GAGenomes, ga.numproc)
+	for i := 0; i < ga.numproc; i++ {
+		children[i] = make(GAGenomes, nselect)
+		for j := 0; j < nselect; j++ {
+			children[i][j] = ga.ga[i].Parameter.Selector.SelectOne(ga.ga[i].pop)
+		}
+	}
+	j := ga.numproc - 1
+	for i := 0; i < ga.numproc; i++ {
+		ga.ga[i].pop = AppendGenomes(ga.ga[i].pop, children[j])
+		j--
+	}
 }
 
 
 func (ga *GAParallel) OptimizeUntil(stop func(best GAGenome) bool) {
-        for !stop(ga.Best()) {
-                ga.Optimize(10)
-        }
+	for !stop(ga.Best()) {
+		ga.Optimize(1)
+	}
 }
 
 
