@@ -1,4 +1,4 @@
-include $(GOROOT)/src/Make.$(GOARCH)
+include $(GOROOT)/src/Make.inc
 
 OBJS := $(patsubst %.go,%.$O,$(wildcard *.go))
 OUT := $(patsubst %.$O,%,$(OBJS))
