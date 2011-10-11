@@ -82,7 +82,7 @@ func (a *GAOrderedIntGenome) Splice(bi GAGenome, from, to, length int) {
 
 func (g *GAOrderedIntGenome) Valid() bool {
 	t := g.Copy().(*GAOrderedIntGenome)
-	sort.SortInts(t.Gene)
+	sort.Ints(t.Gene)
 	last := -9
 	for _, c := range t.Gene {
 		if last > -1 && c == last {
@@ -130,6 +130,5 @@ func (g *GAOrderedIntGenome) Score() float64 {
 }
 
 func (g *GAOrderedIntGenome) Reset() { g.hasscore = false }
-
 
 func (g *GAOrderedIntGenome) String() string { return fmt.Sprintf("%v", g.Gene) }
