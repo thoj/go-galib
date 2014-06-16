@@ -50,8 +50,8 @@ func (a *GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGen
 	//Proto child needs fixing
 	//amap := new(vector.IntVector)
 	//bmap := new(vector.IntVector)
-	amap := make([]int, 1000)
-	bmap := make([]int, 1000)
+	amap := make([]int, 0)
+	bmap := make([]int, 0)
 	for i := p1; i <= p2; i++ {
 		ma, found := ca.pmxmap(ca.Gene[i], p1, p2)
 		if found {
