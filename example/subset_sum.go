@@ -8,8 +8,8 @@ subset sum solver
 package main
 
 import (
-	"../_obj/ga"
 	"fmt"
+	"github.com/thoj/go-galib"
 	"math/rand"
 	"time"
 )
@@ -34,7 +34,7 @@ func score(g *ga.GAFixedBitstringGenome) float64 {
 }
 
 func main() {
-	rand.Seed(time.Nanoseconds())
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	m := ga.NewMultiMutator()
 	msh := new(ga.GAShiftMutator)

@@ -8,8 +8,8 @@ subset sum solver
 package main
 
 import (
-	"../_obj/ga"
 	"fmt"
+	"github.com/thoj/go-galib"
 	"math"
 	"math/rand"
 	"time"
@@ -42,7 +42,7 @@ func rosenbrock(g *ga.GAFloatGenome) float64 {
 }
 
 func main() {
-	rand.Seed(time.Nanoseconds())
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	param := ga.GAParameter{
 		Initializer: new(ga.GARandomInitializer),
@@ -53,11 +53,11 @@ func main() {
 		PBreed:      0.2}
 
 	// Second parameter is the number of Optimize Processes.
-	gao := ga.NewGAParallel(param, 4)
+	gao := ga.NewGAParallel(param, 2)
 
 	genome := ga.NewFloatGenome(make([]float64, 20), rosenbrock, 1, -1)
 
-	gao.Init(100, genome) //Total population
+	gao.Init(1000, genome) //Total population
 
 	gao.OptimizeUntil(func(best ga.GAGenome) bool {
 		return best.Score() < 1e-3
