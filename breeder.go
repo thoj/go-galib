@@ -9,7 +9,7 @@ go-galib beeders
 package ga
 
 import (
-	"rand"
+	"math/rand"
 )
 
 type GABreeder interface {

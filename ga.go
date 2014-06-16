@@ -10,8 +10,8 @@ package ga
 
 import (
 	"fmt"
+	"math/rand"
 	"sort"
-	"rand"
 )
 
 type GAParameter struct {

@@ -11,7 +11,7 @@ package ga
 
 import (
 	"fmt"
-	"rand"
+	"math/rand"
 )
 
 type GAFloatGenome struct {
@@ -91,6 +91,5 @@ func (g *GAFloatGenome) Score() float64 {
 }
 
 func (g *GAFloatGenome) Reset() { g.hasscore = false }
-
 
 func (g *GAFloatGenome) String() string { return fmt.Sprintf("%v", g.Gene) }

@@ -10,7 +10,7 @@ the copy and returns the new mutated copy.
 package ga
 
 import (
-	"rand"
+	"math/rand"
 )
 
 type GASwitchMutator struct{}

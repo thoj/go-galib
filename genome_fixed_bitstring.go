@@ -10,7 +10,7 @@ package ga
 
 import (
 	"fmt"
-	"rand"
+	"math/rand"
 )
 
 type GAFixedBitstringGenome struct {
@@ -87,7 +87,6 @@ func (g *GAFixedBitstringGenome) Score() float64 {
 }
 
 func (g *GAFixedBitstringGenome) Reset() { g.hasscore = false }
-
 
 func (g *GAFixedBitstringGenome) String() string {
 	return fmt.Sprintf("%v", g.Gene)

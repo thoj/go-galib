@@ -8,13 +8,14 @@ Example of uing the ordered int genome and mutators
 package main
 
 import (
-	"fmt"
-	"rand"
-	"time"
 	"../_obj/ga"
+	"fmt"
+	"math/rand"
+	"time"
 )
 
 var scores int
+
 // Boring fitness/score function.
 func score(g *ga.GAOrderedIntGenome) float64 {
 	var total int

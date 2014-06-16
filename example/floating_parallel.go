@@ -8,11 +8,11 @@ subset sum solver
 package main
 
 import (
-	"math"
-	"fmt"
-	"rand"
-	"time"
 	"../_obj/ga"
+	"fmt"
+	"math"
+	"math/rand"
+	"time"
 )
 
 var scores int
@@ -40,7 +40,6 @@ func rosenbrock(g *ga.GAFloatGenome) float64 {
 	}
 	return sum
 }
-
 
 func main() {
 	rand.Seed(time.Nanoseconds())
