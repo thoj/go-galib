@@ -63,7 +63,7 @@ func (g *GAFloatGenome) Switch(x, y int) {
 func (g *GAFloatGenome) Randomize() {
 	l := len(g.Gene)
 	for i := 0; i < l; i++ {
-		g.Gene[i] = rand.Float64()*g.Max + g.Min
+		g.Gene[i] = rand.Float64()*(g.Max-g.Min) + g.Min
 	}
 	g.Reset()
 }
