@@ -9,10 +9,11 @@ Ordered list genome for problems where the order of Genes matter, tSP for exampl
 package ga
 
 import (
+	//"container/vector"
+	//"container/list"
 	"fmt"
-	"container/vector"
+	"math/rand"
 	"sort"
-	"rand"
 )
 
 type GAOrderedIntGenome struct {
@@ -47,24 +48,36 @@ func (a *GAOrderedIntGenome) Crossover(bi GAGenome, p1, p2 int) (GAGenome, GAGen
 	copy(ca.Gene[p1:p2+1], b.Gene[p1:p2+1])
 	copy(cb.Gene[p1:p2+1], a.Gene[p1:p2+1])
 	//Proto child needs fixing
-	amap := new(vector.IntVector)
-	bmap := new(vector.IntVector)
+	//amap := new(vector.IntVector)
+	//bmap := new(vector.IntVector)
+	amap := make([]int, 0)
+	bmap := make([]int, 0)
 	for i := p1; i <= p2; i++ {
 		ma, found := ca.pmxmap(ca.Gene[i], p1, p2)
 		if found {
-			amap.Push(ma)
-			if bmap.Len() > 0 {
-				i1 := amap.Pop()
-				i2 := bmap.Pop()
+			//amap.Push(ma)
+			amap = append(amap, ma)
+			//if bmap.Len() > 0 {
+			if len(bmap) > 0 {
+				//i1 := amap.Pop()
+				//i2 := bmap.Pop()
+				var i1, i2 int
+				i1, amap = amap[len(amap)-1], amap[:len(amap)-1]
+				i2, bmap = bmap[len(bmap)-1], bmap[:len(bmap)-1]
 				ca.Gene[i1], cb.Gene[i2] = cb.Gene[i2], ca.Gene[i1]
 			}
 		}
 		mb, found := cb.pmxmap(cb.Gene[i], p1, p2)
 		if found {
-			bmap.Push(mb)
-			if amap.Len() > 0 {
-				i1 := amap.Pop()
-				i2 := bmap.Pop()
+			//bmap.Push(mb)
+			bmap = append(bmap, mb)
+			//if amap.Len() > 0 {
+			if len(amap) > 0 {
+				//i1 := amap.Pop()
+				//i2 := bmap.Pop()
+				var i1, i2 int
+				i1, amap = amap[len(amap)-1], amap[:len(amap)-1]
+				i2, bmap = bmap[len(bmap)-1], bmap[:len(bmap)-1]
 				ca.Gene[i1], cb.Gene[i2] = cb.Gene[i2], ca.Gene[i1]
 			}
 		}

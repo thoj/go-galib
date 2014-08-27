@@ -9,12 +9,13 @@ package main
 
 import (
 	"fmt"
-	"rand"
+	"github.com/thoj/go-galib"
+	"math/rand"
 	"time"
-	"../_obj/ga"
 )
 
 var scores int
+
 // Boring fitness/score function.
 func score(g *ga.GAOrderedIntGenome) float64 {
 	var total int
@@ -26,7 +27,7 @@ func score(g *ga.GAOrderedIntGenome) float64 {
 }
 
 func main() {
-	rand.Seed(time.Nanoseconds())
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	m := ga.NewMultiMutator()
 	msh := new(ga.GAShiftMutator)
@@ -39,17 +40,18 @@ func main() {
 		Selector:    ga.NewGATournamentSelector(0.7, 5),
 		Breeder:     new(ga.GA2PointBreeder),
 		Mutator:     m,
-		PMutate:     0.2,
+		PMutate:     0.1,
 		PBreed:      0.7}
 
 	gao := ga.NewGA(param)
 
 	genome := ga.NewOrderedIntGenome([]int{10, 11, 12, 13, 14, 15, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0}, score)
 
-	gao.Init(200, genome) //Total population
+	gao.Init(5, genome) //Total population
 
-	gao.Optimize(20) // Run genetic algorithm for 20 generations.
+	gao.Optimize(10) // Run genetic algorithm for 20 generations.
 	gao.PrintTop(10)
+
 	fmt.Printf("Calls to score = %d\n", scores)
 	fmt.Printf("%s\n", m.Stats())
 }

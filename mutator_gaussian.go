@@ -9,7 +9,7 @@ Shifts the whole genome random length to the right.
 package ga
 
 import (
-	"rand"
+	"math/rand"
 )
 
 type GAGaussianMutator struct {
