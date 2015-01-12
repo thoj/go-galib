@@ -48,9 +48,9 @@ func main() {
 	genome := ga.NewOrderedIntGenome([]int{10, 11, 12, 13, 14, 15, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0}, score)
 
 	gao.Init(100, genome) //Total population
-        gao.OptimizeUntil(func(best ga.GAGenome) bool {
-                return best.Score() <=  680
-        })
+	gao.OptimizeUntil(func(best ga.GAGenome) bool {
+		return best.Score() <= 680
+	})
 	gao.PrintTop(10)
 
 	fmt.Printf("Calls to score = %d\n", scores)
