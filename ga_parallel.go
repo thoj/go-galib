@@ -71,13 +71,11 @@ func (ga *GAParallel) Optimize(gen int) {
 	}
 }
 
-
 func (ga *GAParallel) OptimizeUntil(stop func(best GAGenome) bool) {
 	for !stop(ga.Best()) {
 		ga.Optimize(1)
 	}
 }
-
 
 func (ga *GAParallel) Best() GAGenome {
 	best := ga.ga[0].Best()

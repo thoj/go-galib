@@ -37,7 +37,6 @@ func (g GAGenomes) Len() int           { return len(g) }
 func (g GAGenomes) Less(i, j int) bool { return g[i].Score() < g[j].Score() }
 func (g GAGenomes) Swap(i, j int)      { g[i], g[j] = g[j], g[i] }
 
-
 func AppendGenomes(slice, data GAGenomes) GAGenomes {
 	l := len(slice)
 	if l+len(data) > cap(slice) {

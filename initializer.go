@@ -6,7 +6,6 @@ license that can be found in the LICENSE file.
 go-galib initializers
 */
 
-
 package ga
 
 type GAInitializer interface {

@@ -15,7 +15,6 @@ type GAMutator interface {
 	String() string
 }
 
-
 //Do nothing mutator
 type GANoopMutator struct{}
 

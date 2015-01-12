@@ -4,18 +4,14 @@ Genetic Algorithms for Go/Golang
 
 Install
 --------
-	$ git clone git://github.com/thoj/go-galib.git
-	$ cd go-galib
-	$ make
-	$ make install
-
-Goinstall:
---------
-	$ goinstall github.com/thoj/go-galib
+	$ go install git://github.com/thoj/go-galib.git
 
 Compiling examples:
+        $ git clone git://github.com/thoj/go-galib.git
+        $ cd go-galib
 	$ cd examples
-	$ make
+	$ go build floating.go
+        $ ./floating
 
 Use
 --------
