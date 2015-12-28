@@ -27,7 +27,8 @@ func NewMultiMutator() *GAMultiMutator {
 
 func (m GAMultiMutator) Mutate(a GAGenome) GAGenome {
 	if len(m.v) == 0 {
-		panic("No mutators added!")
+		// No mutators, so nothing to do.
+		return a.Copy()
 	}
 	r := float64(1.0 / float64(len(m.v)))
 	for i := 0; i < (len(m.v) - 1); i++ {
