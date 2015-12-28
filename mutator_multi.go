@@ -25,22 +25,14 @@ func NewMultiMutator() *GAMultiMutator {
 	return m
 }
 
-func (m GAMultiMutator) Mutate(a GAGenome) GAGenome {
+func (m *GAMultiMutator) Mutate(a GAGenome) GAGenome {
 	if len(m.v) == 0 {
 		// No mutators, so nothing to do.
 		return a.Copy()
 	}
-	r := float64(1.0 / float64(len(m.v)))
-	for i := 0; i < (len(m.v) - 1); i++ {
-		if rand.Float64() < r {
-			sm := m.v[i].(GAMutator)
-			m.stats[i]++
-			return sm.Mutate(a)
-		}
-	}
-	sm := m.v[len(m.v)-1].(GAMutator)
-	m.stats[len(m.v)-1]++
-	return sm.Mutate(a)
+	r := rand.Intn(len(m.v))
+	m.stats[r]++
+	return m.v[r].Mutate(a)
 }
 
 //Add mutator
