@@ -11,6 +11,7 @@ package ga
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 )
 
 type GAMultiMutator struct {
@@ -18,13 +19,16 @@ type GAMultiMutator struct {
 	stats []int
 }
 
+// NewMultiMutator returns a new, empty, multi mutator.
 func NewMultiMutator() *GAMultiMutator {
-	m := new(GAMultiMutator)
-	m.v = make([]GAMutator, 0)
-	m.stats = make([]int, 0)
-	return m
+	return &GAMultiMutator{
+		v:     make([]GAMutator, 0),
+		stats: make([]int, 0),
+	}
 }
 
+// Mutate mutates the genome using one of the mutators added using Add(). Each
+// mutator has equal chance of being chosen.
 func (m *GAMultiMutator) Mutate(a GAGenome) GAGenome {
 	if len(m.v) == 0 {
 		// No mutators, so nothing to do.
@@ -35,17 +39,20 @@ func (m *GAMultiMutator) Mutate(a GAGenome) GAGenome {
 	return m.v[r].Mutate(a)
 }
 
-//Add mutator
+// Add adds a mutator to the MultiMutator.
 func (m *GAMultiMutator) Add(a GAMutator) {
 	m.v = append(m.v, a)
 	m.stats = append(m.stats, 0)
 }
+
+// String returns the name of the mutator.
 func (m GAMultiMutator) String() string { return "GAMultiMutator" }
+
+// Stats() returns a strings with usage details of the individual mutators.
 func (m *GAMultiMutator) Stats() string {
-	o := "Used "
-	for i := 0; i < len(m.v); i++ {
-		sm := m.v[i].(GAMutator)
-		o = fmt.Sprintf("%s%s %d times, ", o, sm, m.stats[i])
+	var o []string
+	for i, sm := range m.v {
+		o = append(o, fmt.Sprintf("%s %d times", sm, m.stats[i]))
 	}
-	return o
+	return "Used " + strings.Join(o, ", ")
 }
